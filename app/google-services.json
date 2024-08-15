@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "707669335267",
+    "project_id": "expensemanagement-rebuild",
+    "storage_bucket": "expensemanagement-rebuild.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707669335267:android:1e863c661f1dc8e74d79d6",
+        "android_client_info": {
+          "package_name": "com.example.expensemanagementrebuild"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6lXbrQXPWexwf2BJXn3m1Ex3s4n0HiJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

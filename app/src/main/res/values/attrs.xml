@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="AppTheme">
+        <attr name="colorSecondaryMenu" format="color" />
+    </declare-styleable>
+</resources>

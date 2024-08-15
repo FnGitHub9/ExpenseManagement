@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ExpenseManagementrebuild" parent="Theme.Material3.DayNight">
+       <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="Theme.ExpenseManagementrebuild" parent="Base.Theme.ExpenseManagementrebuild" />
+    <style name="MenuStyle" parent="@android:style/Widget.PopupMenu">
+        <item name="android:background">?attr/colorSecondaryMenu</item>
+    </style>
+</resources>
