@@ -25,9 +25,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
-public class  MainActivity extends AppCompatActivity {
+public class  MainActivity extends AppCompatActivity implements OnItemsClick{
     ActivityMainBinding binding;
     private ExpenseAdapter expenseAdapter;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +37,11 @@ public class  MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
 
-        expenseAdapter = new ExpenseAdapter(this);
+        expenseAdapter = new ExpenseAdapter(this, this);
         binding.recycler.setAdapter(expenseAdapter);
         binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);
+        intent = new Intent(MainActivity.this, AddExpenseActivity.class);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -113,5 +114,11 @@ public class  MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onClick(ExpenseModel expenseModel) {
+        intent.putExtra("model",expenseModel);
+        startActivity(intent);
     }
 }

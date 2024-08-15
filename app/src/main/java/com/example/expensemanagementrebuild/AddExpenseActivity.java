@@ -25,13 +25,21 @@ import java.util.UUID;
 public class AddExpenseActivity extends AppCompatActivity {
     ActivityAddExpenseBinding binding;
     private String type;
+    private ExpenseModel expenseModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityAddExpenseBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
+
         type = getIntent().getStringExtra("type");
+        expenseModel = (ExpenseModel) getIntent().getSerializableExtra("model");
+        if (expenseModel!=null){
+            type=expenseModel.getType();
+        }
+
+
 
         if (type.equals("Income")){
             binding.RBincome.setChecked(true);
@@ -101,6 +109,32 @@ public class AddExpenseActivity extends AppCompatActivity {
                 .collection("expenses")
                 .document(expenseId)
                 .set(expenseModel);
+        finish();
+    }
+    private void updateExpense() {
+        String expenseId= expenseModel.getExpenseId();
+        String amount = binding.amount.getText().toString();
+        String note = binding.note.getText().toString();
+        String category = binding.category.getText().toString();
+        boolean rBincomeChecked =binding.RBincome.isChecked();
+
+        if (rBincomeChecked){
+            type="Income";
+        }else {
+            type="Expense";
+        }
+
+        if (amount.trim().length()==0){
+            binding.amount.setError("Invalid Value, Please enter a valid amount");
+            return;
+        }
+        ExpenseModel model = new ExpenseModel(expenseId,note,category,type, Long.parseLong(amount),expenseModel.getTime(), FirebaseAuth.getInstance().getUid());
+
+        FirebaseFirestore
+                .getInstance()
+                .collection("expenses")
+                .document(expenseId)
+                .set(model);
         finish();
     }
 }
