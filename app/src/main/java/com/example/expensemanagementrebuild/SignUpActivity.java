@@ -25,8 +25,6 @@ public class SignUpActivity extends AppCompatActivity {
     EditText editTxt_Email_SU, editTxt_Password_SU, editTxt_RePassword;
     Button btn_SignUp;
     TextView txtView_SignIn;
-    ActionBar actionBar = getActionBar();
-
 
     @Override
     public void onStart() {
@@ -37,14 +35,13 @@ public class SignUpActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
         editTxt_Email_SU = findViewById(R.id.editTxt_Email_SU);
@@ -83,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Enter re-password !", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.equals(password, repassword)) {
+                if (!TextUtils.equals(password, repassword)) {
                     Toast.makeText(SignUpActivity.this, "Re-password not match !", Toast.LENGTH_SHORT).show();
                     return;
                 }

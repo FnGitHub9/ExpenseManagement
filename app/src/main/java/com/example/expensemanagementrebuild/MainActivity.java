@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -60,6 +61,9 @@ public class  MainActivity extends AppCompatActivity implements OnItemsClick{
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Home");
 
         expenseAdapter = new ExpenseAdapter(this, this);
         binding.recycler.setAdapter(expenseAdapter);

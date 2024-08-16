@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -31,6 +32,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         binding=ActivityAddExpenseBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
+
+        ActionBar actionBar = getSupportActionBar();
 
         type = getIntent().getStringExtra("type");
         expenseModel = (ExpenseModel) getIntent().getSerializableExtra("model");
@@ -72,6 +75,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
+
         if (expenseModel==null){
             menuInflater.inflate(R.menu.add_menu,menu);
         }else{

@@ -40,6 +40,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        getSupportActionBar().hide();
 
         txtView_SignUp = findViewById(R.id.txtView_SignUp);
 
