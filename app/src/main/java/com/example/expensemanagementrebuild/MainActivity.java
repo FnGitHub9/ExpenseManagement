@@ -15,6 +15,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.expensemanagementrebuild.databinding.ActivityMainBinding;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -23,11 +26,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class  MainActivity extends AppCompatActivity implements OnItemsClick{
     ActivityMainBinding binding;
     private ExpenseAdapter expenseAdapter;
+    private long income =0, expense = 0;
     Intent intent;
 
     @Override
@@ -94,6 +99,7 @@ public class  MainActivity extends AppCompatActivity implements OnItemsClick{
     @Override
     protected void onResume() {
         super.onResume();
+        income = 0; expense = 0;
         getData();
     }
 
@@ -110,10 +116,36 @@ public class  MainActivity extends AppCompatActivity implements OnItemsClick{
                         List<DocumentSnapshot> dsList = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot ds:dsList){
                             ExpenseModel expenseModel =ds.toObject(ExpenseModel.class);
+                            if (expenseModel.getType().equals("Income")){
+                                income+=expenseModel.getAmount();
+                            } else {
+                                expense+=expenseModel.getAmount();
+                            }
                             expenseAdapter.add(expenseModel);
                         }
+                        setUpGraph();
                     }
                 });
+    }
+
+    private void setUpGraph() {
+        List<PieEntry> pieEntryList = new ArrayList<>();
+        List<Integer> colorList = new ArrayList<>();
+        if (income!=0){
+            pieEntryList.add(new PieEntry(income,"Income"));
+            colorList.add(getResources().getColor(R.color.green_light));
+        }
+        if (expense!=0){
+            pieEntryList.add(new PieEntry(expense,"Expense"));
+            colorList.add(getResources().getColor(R.color.red));
+        }
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList, String.valueOf(income=expense));
+        PieData pieData = new PieData(pieDataSet);
+        binding.pieChart.setData(pieData);
+        pieDataSet.setColors(colorList);
+        binding.pieChart.invalidate();
+
+
     }
 
     @Override

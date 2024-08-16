@@ -15,7 +15,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.expensemanagementrebuild.databinding.ActivityAddExpenseBinding;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,8 +34,11 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         type = getIntent().getStringExtra("type");
         expenseModel = (ExpenseModel) getIntent().getSerializableExtra("model");
-        if (expenseModel!=null){
+        if (type==null){
             type=expenseModel.getType();
+            binding.amount.setText(String.valueOf(expenseModel.getAmount()));
+            binding.category.setText(expenseModel.getCategory());
+            binding.note.setText(expenseModel.getNote());
         }
 
 
@@ -69,9 +71,12 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("Menu", "onCreateOptionsMenu called");
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_menu,menu);
+        if (expenseModel==null){
+            menuInflater.inflate(R.menu.add_menu,menu);
+        }else{
+            menuInflater.inflate(R.menu.update_menu,menu);
+        }
         return true;
     }
 
@@ -79,13 +84,29 @@ public class AddExpenseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id= item.getItemId();
         if (id==R.id.saveExpense){
-            creatExpense();
+            if (type!=null){
+                createExpense();
+            }else{
+                updateExpense();
+            }
             return true;
+        }
+        if (id==R.id.deleteExpense){
+            deleteExpense();
         }
         return false;
     }
 
-    private void creatExpense() {
+    private void deleteExpense() {
+        FirebaseFirestore
+                .getInstance()
+                .collection("expenses")
+                .document(expenseModel.getExpenseId())
+                .delete();
+        finish();
+    }
+
+    private void createExpense() {
         String expenseId= UUID.randomUUID().toString();
         String amount = binding.amount.getText().toString();
         String note = binding.note.getText().toString();
