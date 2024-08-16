@@ -63,6 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email, password, repassword;
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 email = String.valueOf(editTxt_Email_SU.getText());
                 password = String.valueOf(editTxt_Password_SU.getText());
@@ -72,8 +73,16 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Enter email !", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (!email.matches(emailPattern)) {
+                    Toast.makeText(SignUpActivity.this, "Enter valid email !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(SignUpActivity.this, "Enter password !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (password.length() < 6) {
+                    Toast.makeText(SignUpActivity.this, "Password is too short !", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(repassword)) {
@@ -92,8 +101,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(SignUpActivity.this, "Account created.",
                                             Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
-                                    Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.makeText(SignUpActivity.this, "Account created unsuccessfully.",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }
