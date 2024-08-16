@@ -20,6 +20,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ExpenseManagement (rebuild)"
+rootProject.name = "ExpenseManagement"
 include(":app")
  
